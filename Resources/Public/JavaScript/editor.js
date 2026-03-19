@@ -51,7 +51,12 @@
                 $type.change();
             }
             else {
-                $type.filter('input[value="create"]').attr('checked', true).change();
+                var $createInput = $type.filter('input[value="create"]');
+                if ($createInput.length) {
+                    $createInput.attr('checked', true).change();
+                } else {
+                    $type.filter('input[value="update"]').attr('checked', true).change();
+                }
             }
 
             let formIsUpdated = false;
@@ -73,6 +78,8 @@
 
                         // Submit form data
                         formIsUpdated = true;
+                        
+                        
                         $form.submit();
                     });
 

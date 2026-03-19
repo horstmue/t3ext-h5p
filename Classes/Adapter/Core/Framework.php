@@ -1126,7 +1126,7 @@ class Framework implements H5PFrameworkInterface, SingletonInterface
      * @param int $id
      *   Content identifier
      *
-     * @return array
+     * @return array|null
      *   Associative array containing:
      *   - contentId: Identifier for the content
      *   - params: json content as string
@@ -1139,12 +1139,39 @@ class Framework implements H5PFrameworkInterface, SingletonInterface
      *   - libraryMinorVersion: The library's minorVersion
      *   - libraryEmbedTypes: CSV of the main library's embed types
      *   - libraryFullscreen: 1 if fullscreen is supported. 0 otherwise.
-     * @throws MethodNotImplementedException
+     *   - slug: Content slug
+     *   - filtered: Filtered parameters
      */
-    public function loadContent($id): void
+    public function loadContent($id): ?array
     {
-        // TODO: Implement loadContent() method.
-        MaintenanceUtility::methodMissing(__CLASS__, __FUNCTION__);
+        $x = 3;
+//        /** @var Content $content */
+//        $content = $this->contentRepository->findOneByUid((int)$id);
+//        if ($content === null) {
+//            return null;
+//        }
+//
+//        $library = $content->getLibrary();
+//        if (!$library instanceof Library) {
+//            return null;
+//        }
+//
+//        return [
+//            'id' => $content->getUid(),
+//            'contentId' => $content->getUid(),
+//            'params' => $content->getParameters(),
+//            'embedType' => $content->getEmbedType(),
+//            'title' => $content->getTitle(),
+//            'language' => 'en',
+//            'libraryId' => $library->getUid(),
+//            'libraryName' => $library->getMachineName(),
+//            'libraryMajorVersion' => $library->getMajorVersion(),
+//            'libraryMinorVersion' => $library->getMinorVersion(),
+//            'libraryEmbedTypes' => $library->getEmbedTypes(),
+//            'libraryFullscreen' => $library->getFullscreen(),
+//            'slug' => $content->getSlug(),
+//            'filtered' => $content->getFiltered()
+//        ];
     }
 
     /**
@@ -1569,5 +1596,10 @@ class Framework implements H5PFrameworkInterface, SingletonInterface
     public function setContentHubMetadataChecked($time, $lang = 'de'): void
     {
         // Temporäre leere Implementierung
+    }
+
+    public function resetHubOrganizationData(): void
+    {
+        // Implementierung für das Zurücksetzen der Hub-Organisationsdaten
     }
 }
