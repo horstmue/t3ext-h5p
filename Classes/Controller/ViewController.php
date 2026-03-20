@@ -46,20 +46,6 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 class ViewController extends ActionController
 {
     /**
-     * Content repository
-     *
-     * @var ContentRepository
-     */
-    protected ContentRepository $contentRepository;
-
-    /**
-     * Content result repository
-     *
-     * @var ContentResultRepository
-     */
-    protected ContentResultRepository $contentResultRepository;
-
-    /**
      * @var ContentObjectRenderer
      */
     private ContentObjectRenderer $contentObjectRenderer;
@@ -91,11 +77,9 @@ class ViewController extends ActionController
     private LanguageServiceFactory $languageServiceFactory;
 
     public function __construct(
-        ContentRepository $contentRepository,
-        ContentResultRepository $contentResultRepository
+        protected ContentRepository $contentRepository,
+        protected ContentResultRepository $contentResultRepository,
     ) {
-        $this->contentRepository = $contentRepository;
-        $this->contentResultRepository = $contentResultRepository;
     }
 
     public function injectLanguageServiceFactory(LanguageServiceFactory $languageServiceFactory): void
