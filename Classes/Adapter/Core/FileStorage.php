@@ -1,4 +1,5 @@
 <?php
+
 namespace MichielRoos\H5p\Adapter\Core;
 
 use H5PCore;
@@ -160,8 +161,8 @@ class FileStorage implements H5PFileStorage, SingletonInterface
             $dir = str_replace($source, '', $pathName);
             $dir = ltrim($dir, '/');
             if ($fileInfo->isDir()) {
-                if (!$this->storage->hasFolder( $libraryFolder->getIdentifier() . $dir)) {
-                    $this->storage->createFolder($dir, $libraryFolder,);
+                if (!$this->storage->hasFolder($libraryFolder->getIdentifier() . $dir)) {
+                    $this->storage->createFolder($dir, $libraryFolder);
                 }
             }
             if ($fileInfo->isFile()) {
@@ -416,7 +417,7 @@ class FileStorage implements H5PFileStorage, SingletonInterface
 
             $files[$type] = [
                 (object)[
-                    'path'    => $this->resourceManager->getPublicPersistentResourceUri($persistentResource),
+                    'path' => $this->resourceManager->getPublicPersistentResourceUri($persistentResource),
                     'version' => ''
                 ]
             ];
@@ -443,7 +444,7 @@ class FileStorage implements H5PFileStorage, SingletonInterface
             if ($cachedAsset->getType() === 'scripts') {
                 $files['scripts'] = [
                     (object)[
-                        'path'    => $this->resourceManager->getPublicPersistentResourceUri($cachedAsset->getResource()),
+                        'path' => $this->resourceManager->getPublicPersistentResourceUri($cachedAsset->getResource()),
                         'version' => ''
                     ]
                 ];
@@ -451,7 +452,7 @@ class FileStorage implements H5PFileStorage, SingletonInterface
             if ($cachedAsset->getType() === 'styles') {
                 $files['styles'] = [
                     (object)[
-                        'path'    => $this->resourceManager->getPublicPersistentResourceUri($cachedAsset->getResource()),
+                        'path' => $this->resourceManager->getPublicPersistentResourceUri($cachedAsset->getResource()),
                         'version' => ''
                     ]
                 ];
@@ -545,7 +546,7 @@ class FileStorage implements H5PFileStorage, SingletonInterface
             }
         }
         $data['upload'][$counter] = [
-            'data'   => $counter,
+            'data' => $counter,
             'target' => $targetDirectory,
         ];
     }
@@ -679,7 +680,7 @@ class FileStorage implements H5PFileStorage, SingletonInterface
         }, $contentJson);
 
         return (object)[
-            'h5pJson'     => $h5pJson,
+            'h5pJson' => $h5pJson,
             'contentJson' => $contentJson
         ];
     }
