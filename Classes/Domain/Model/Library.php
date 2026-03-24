@@ -200,7 +200,9 @@ class Library extends AbstractEntity
             $libraryData['fullscreen'] = 0;
         }
 
-        $library = new Library();
+        $libraryDependencyRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(LibraryDependencyRepository::class);
+        $library = new Library($libraryDependencyRepository);
+//        $library = new Library();
         $library->updateFromLibraryData($libraryData);
         $library->setCreatedAt(new DateTime());
         $library->setUpdatedAt(new DateTime());

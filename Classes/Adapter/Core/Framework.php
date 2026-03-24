@@ -353,7 +353,11 @@ class Framework implements H5PFrameworkInterface, SingletonInterface
     public function getLibraryFileUrl($libraryFolderName, $fileName): string
     {
         $libraryFolderName = $this->trimAfterSecondDot($libraryFolderName);
-        $file = $this->storage->getFile('/h5p/libraries/' . $libraryFolderName . '/' . $fileName);
+        $identifier = '/h5p/libraries/' . $libraryFolderName . '/' . $fileName;
+        if (!$this->storage->hasFile($identifier)) {
+            return "";
+        }
+        $file = $this->storage->getFile($identifier);
         return '/' . ltrim($file->getPublicUrl(), '/');
     }
 
@@ -395,7 +399,7 @@ class Framework implements H5PFrameworkInterface, SingletonInterface
      */
     public function getUploadedH5pFolderPath(): string
     {
-        if (!$this->uploadedH5pFolderPath) {
+        if (!isset($this->uploadedH5pFolderPath)) {
             $this->uploadedH5pFolderPath = $this->getInjectedH5PCore()->fs->getTmpPath();
         }
         return $this->uploadedH5pFolderPath;
@@ -406,7 +410,7 @@ class Framework implements H5PFrameworkInterface, SingletonInterface
      */
     protected function getInjectedH5PCore(): CoreFactory|H5PCore
     {
-        if ($this->h5pCore === null) {
+        if (!isset($this->h5pCore)) {
             $language = ($this->getLanguageService()->lang === 'default') ? 'en' : $this->getLanguageService()->lang;
 
             $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
@@ -416,9 +420,8 @@ class Framework implements H5PFrameworkInterface, SingletonInterface
             $h5pFramework = GeneralUtility::makeInstance(Framework::class);
             $h5pFramework->setStorage($storage); // Storage nachträglich setzen
 
-            // FileStorage erstellen ohne Argumente, Storage ggf. ebenfalls per Setter setzen
-            $h5pFileStorage = GeneralUtility::makeInstance(FileStorage::class);
-            $h5pFileStorage->setStorage($storage);
+            // FileStorage erstellen mit Storage im Konstruktor
+            $h5pFileStorage = GeneralUtility::makeInstance(FileStorage::class, $storage);
 
             // H5P Core mit Framework und FileStorage erstellen
             $this->h5pCore = GeneralUtility::makeInstance(CoreFactory::class, $h5pFramework, $h5pFileStorage, $language);
@@ -447,7 +450,7 @@ class Framework implements H5PFrameworkInterface, SingletonInterface
      */
     public function getUploadedH5pPath(): string
     {
-        if (!$this->uploadedH5pPath) {
+        if (!isset($this->uploadedH5pPath)) {
             $this->uploadedH5pPath = $this->getInjectedH5PCore()->fs->getTmpPath() . '.h5p';
         }
         return $this->uploadedH5pPath;

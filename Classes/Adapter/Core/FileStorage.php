@@ -7,6 +7,7 @@ use H5PFileStorage;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
+use TYPO3\CMS\Core\Resource\Enum\DuplicationBehavior;
 use TYPO3\CMS\Core\Resource\Exception\ExistingTargetFolderException;
 use TYPO3\CMS\Core\Resource\Exception\InsufficientFolderAccessPermissionsException;
 use TYPO3\CMS\Core\Resource\Exception\InsufficientFolderWritePermissionsException;
@@ -22,7 +23,6 @@ use TYPO3\CMS\Core\Resource\Exception\InvalidPathException;
 use MichielRoos\H5p\Domain\Model\CachedAsset;
 use MichielRoos\H5p\Domain\Repository\CachedAssetRepository;
 use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Core\Resource\DuplicationBehavior;
 use TYPO3\CMS\Core\Resource\Folder;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -160,7 +160,9 @@ class FileStorage implements H5PFileStorage, SingletonInterface
             $dir = str_replace($source, '', $pathName);
             $dir = ltrim($dir, '/');
             if ($fileInfo->isDir()) {
-                $this->storage->createFolder($dir, $libraryFolder);
+                if (!$this->storage->hasFolder( $libraryFolder->getIdentifier() . $dir)) {
+                    $this->storage->createFolder($dir, $libraryFolder,);
+                }
             }
             if ($fileInfo->isFile()) {
                 $targetDirectory = ltrim(str_replace($source, '', $fileInfo->getPath()), '/');
@@ -169,7 +171,7 @@ class FileStorage implements H5PFileStorage, SingletonInterface
                 } else {
                     $destinationFolder = $libraryFolder->getSubfolder($targetDirectory);
                 }
-                $destinationFolder->addFile($fileInfo->getPathname(), $fileInfo->getFilename());
+                $destinationFolder->addFile($fileInfo->getPathname(), $fileInfo->getFilename(), \TYPO3\CMS\Core\Resource\Enum\DuplicationBehavior::REPLACE);
             }
         }
     }
