@@ -43,4 +43,17 @@ class CoreFactory extends H5PCore implements SingletonInterface
 
         return $dependencies;
     }
+
+
+    /**
+     * Get the name of a library's folder name
+     *
+     * @return string
+     */
+    public static function libraryToFolderName($library) {
+        $name = $library['machineName'] ?? $library['name'];
+        $includePatchVersion = $library['patchVersionInFolderName'] ?? false;
+
+        return "{$name}-{$library['majorVersion']}.{$library['minorVersion']}" . ($includePatchVersion ? ".{$library['patchVersion']}" : '');
+    }
 }

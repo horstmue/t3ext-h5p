@@ -4,6 +4,7 @@ namespace MichielRoos\H5p\Domain\Model;
 use DateTime;
 use Exception;
 use H5PCore;
+use MichielRoos\H5p\Adapter\Core\CoreFactory;
 use stdClass;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use MichielRoos\H5p\Domain\Repository\LibraryDependencyRepository;
@@ -404,7 +405,7 @@ class Library extends AbstractEntity
      */
     public function getFolderName(): string
     {
-        return H5PCore::libraryToString($this->toAssocArray(), true);
+        return CoreFactory::libraryToString($this->toAssocArray(), true);
     }
 
     /**
