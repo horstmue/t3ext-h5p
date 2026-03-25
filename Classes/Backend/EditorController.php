@@ -123,7 +123,7 @@ class EditorController extends ActionController implements SingletonInterface
                 exit;
                 break;
             case H5PEditorEndpoints::LIBRARY_UPLOAD:
-                $contentId  = $parameters['contentId'];
+                $contentId  = $parameters['contentId'] ?? null;
                 $uploadPath = $_FILES['h5p']['tmp_name'];
                 $token      = $parameters['token'] ?? 'dummy';
                 $this->h5pAjaxEditor->action(H5PEditorEndpoints::LIBRARY_UPLOAD, $token, $uploadPath, $contentId);
@@ -131,7 +131,7 @@ class EditorController extends ActionController implements SingletonInterface
                 break;
             case H5PEditorEndpoints::FILTER:
                 $token             = $parameters['token'] ?? 'dummy';
-                $libraryParameters = $this->request->getParsedBody()['libraryParameters'];
+                $libraryParameters = $request->getParsedBody()['libraryParameters'];
                 $this->h5pAjaxEditor->action(H5PEditorEndpoints::FILTER, $token, $libraryParameters);
                 exit;
                 break;

@@ -18,7 +18,7 @@ class CoreFactory extends H5PCore implements SingletonInterface
      *
      * @param H5PFrameworkInterface $H5PFramework
      *  The frameworks implementation of the H5PFrameworkInterface
-     * @param string|H5PFileStorage $path H5P file storage directory or class.
+     * @param H5PFileStorage $path H5P file storage directory or class.
      * @param string $url To file storage directory.
      * @param string $language code. Defaults to english.
      * @param boolean $export enabled?
@@ -47,10 +47,14 @@ class CoreFactory extends H5PCore implements SingletonInterface
 
     /**
      * Get the name of a library's folder name
+     * Override the existing function to avoid, that spaces are replaced with underscores in the folder creation process
+     * The old version would create "{$name} {$library['majorVersion']}...
      *
+     * @param $library
      * @return string
      */
-    public static function libraryToFolderName($library) {
+    public static function libraryToFolderName($library): string
+    {
         $name = $library['machineName'] ?? $library['name'];
         $includePatchVersion = $library['patchVersionInFolderName'] ?? false;
 
