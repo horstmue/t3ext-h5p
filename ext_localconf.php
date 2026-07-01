@@ -52,7 +52,3 @@ call_user_func(
     },
     'h5p'
 );
-
-$GLOBALS['TYPO3_CONF_VARS']['BE']['contentSecurityPolicyReportingUrl'] = '';
-$GLOBALS['TYPO3_CONF_VARS']['BE']['HTTP']['Response']['Headers'][] =
-    'Content-Security-Policy: default-src \'self\'; script-src \'self\' \'unsafe-eval\' data: https://*.openstreetmap.org \'report-sample\'; style-src \'self\' \'unsafe-inline\' \'report-sample\'; style-src-attr \'unsafe-inline\' \'report-sample\'; img-src \'self\' data: *.ytimg.com *.vimeocdn.com https://extensions.typo3.org https://*.openstreetmap.org *; frame-src \'self\' *.youtube-nocookie.com *.youtube.com *.vimeo.com; base-uri data: *; object-src \'none\'; connect-src \'self\' data: https://*.openstreetmap.org; script-src-elem \'unsafe-inline\' * \'report-sample\'; font-src data: *';
