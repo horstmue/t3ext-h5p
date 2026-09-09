@@ -25,6 +25,7 @@ use MichielRoos\H5p\Domain\Repository\ContentResultRepository;
 use MichielRoos\H5p\Domain\Repository\PageRepository;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Page\PageRenderer;
@@ -301,7 +302,7 @@ class ViewController extends ActionController
      */
     public function statisticsAction(): ResponseInterface
     {
-        if (!$GLOBALS['TSFE']->loginUser) {
+        if (!GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('frontend.user', 'isLoggedIn')) {
             $this->view->assign('notLoggedIn', true);
             return $this->htmlResponse(null);
         }

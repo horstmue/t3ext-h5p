@@ -20,6 +20,7 @@ use MichielRoos\H5p\Domain\Model\ContentResult;
 use MichielRoos\H5p\Domain\Repository\ContentRepository;
 use MichielRoos\H5p\Domain\Repository\ContentResultRepository;
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -59,7 +60,7 @@ class AjaxController extends ActionController
             'details'    => 'No user is logged in'
         ];
 
-        if ($GLOBALS['TSFE']->loginUser) {
+        if (GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('frontend.user', 'isLoggedIn')) {
             $user = $this->request->getAttribute('frontend.user')->user;
             $postData = $this->request->getParsedBody();
             if (!array_key_exists('time', $postData)) {
